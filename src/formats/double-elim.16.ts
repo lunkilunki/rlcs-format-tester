@@ -6,6 +6,8 @@ import { MatchesConfig } from '../interfaces/match';
 
 export class DoubleElim16 implements Format {
   public readonly result: DoubleElim16.Result;
+  public readonly winnerWentThroughLower: DoubleElim16.UpperRounds | null;
+  public readonly seed1WentToLowerInRO16: boolean = false;
 
   constructor(private readonly teams: Team[], private readonly computer: WinComputer) {
     if (this.teams.length !== 16) throw new Error('double elim 16 must have 16 teams');
@@ -36,6 +38,22 @@ export class DoubleElim16 implements Format {
       R2: [grandFinalsResult.loser],
       R1: [grandFinalsResult.winner],
     };
+
+    if (uEights.losers.includes(this.result.R1[0])) {
+      this.winnerWentThroughLower = DoubleElim16.UpperRounds.RO16;
+    } else if (uQuarters.losers.includes(this.result.R1[0])) {
+      this.winnerWentThroughLower = DoubleElim16.UpperRounds.RO8;
+    } else if (uSemis.losers.includes(this.result.R1[0])) {
+      this.winnerWentThroughLower = DoubleElim16.UpperRounds.RO4;
+    } else if (uFinals.loser === this.result.R1[0]) {
+      this.winnerWentThroughLower = DoubleElim16.UpperRounds.RO2;
+    } else {
+      this.winnerWentThroughLower = null;
+    }
+
+    if (uEights.losers.includes(this.teams[0])) {
+      this.seed1WentToLowerInRO16 = true;
+    }
   }
 
   public toString(): string {
@@ -68,6 +86,12 @@ export class DoubleElim16 implements Format {
 }
 
 export namespace DoubleElim16 {
+  export enum UpperRounds {
+    RO16,
+    RO8,
+    RO4,
+    RO2,
+  }
   export interface Result extends AbstractResult {
     readonly R1: Team[];
     readonly R2: Team[];

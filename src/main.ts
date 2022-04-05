@@ -167,6 +167,19 @@ const single = {
 
 const double = {
   winratePerSeed: TEAMS.map((t) => d.double.filter((x) => x.result.R1[0].seed === t.seed).length),
+  winnerWentThroughLower: d.double.filter((d) => d.winnerWentThroughLower !== null).length,
+  winnerLostUpperRO16: d.double.filter((d) => d.winnerWentThroughLower === DoubleElim16.UpperRounds.RO16)
+    .length,
+  winnerLostUpperRO8: d.double.filter((d) => d.winnerWentThroughLower === DoubleElim16.UpperRounds.RO8)
+    .length,
+  winnerLostUpperRO4: d.double.filter((d) => d.winnerWentThroughLower === DoubleElim16.UpperRounds.RO4)
+    .length,
+  winnerLostUpperRO2: d.double.filter((d) => d.winnerWentThroughLower === DoubleElim16.UpperRounds.RO2)
+    .length,
+  seed1LostUpperRO16: d.double.filter((d) => d.seed1WentToLowerInRO16).length,
+  seed1WonFromLostUpperRO16: d.double.filter(
+    (d) => d.result.R1[0].seed === 1 && d.winnerWentThroughLower === DoubleElim16.UpperRounds.RO16,
+  ).length,
 };
 
 const gsl = {
@@ -264,6 +277,18 @@ console.log('\n');
 console.log('DOUBLE ELIM FORMAT');
 console.log('Percentage over number of runs');
 console.log(` winrate per seed : ${double.winratePerSeed.map((w) => `${percentage(w)}%`).join(' - ')}`);
+console.log(` winner went to lower : ${percentage(double.winnerWentThroughLower)}%`);
+console.log(` winner went to lower in RO16 : ${percentage(double.winnerLostUpperRO16)}%`);
+console.log(` winner went to lower in RO8 : ${percentage(double.winnerLostUpperRO8)}%`);
+console.log(` winner went to lower in RO4 : ${percentage(double.winnerLostUpperRO4)}%`);
+console.log(` winner went to lower in RO2 : ${percentage(double.winnerLostUpperRO2)}%`);
+console.log("Percentage over number of times 'from' situation happened");
+console.log(
+  ` seed 1 won from going in Lower in RO16 : ${percentage(
+    double.seed1WonFromLostUpperRO16,
+    double.seed1LostUpperRO16,
+  )}%`,
+);
 
 console.log('\n');
 console.log('GSL FORMAT');
