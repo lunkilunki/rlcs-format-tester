@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2020",
+    "sourceMap": true,
+    "outDir": "dist",
+    "declaration": false,
+    "newLine": "LF",
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+    "noEmitOnError": true,
+    "noErrorTruncation": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["es2020", "dom"],
+    "strict": true,
+    "noImplicitAny": true
+  },
+  "exclude": ["node_modules", "dist"]
+}
